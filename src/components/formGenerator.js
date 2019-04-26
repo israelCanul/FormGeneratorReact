@@ -1,5 +1,7 @@
 import React from "react";
 
+import(/* webpackChunkName: "cssAside" */ "../../scss/form.scss");
+
 class FormGenerator extends React.Component {
   constructor(props) {
     super(props);
@@ -10,7 +12,7 @@ class FormGenerator extends React.Component {
   getFormFromApi() {
     this.setState({
       form: JSON.parse(
-        '{"form":{"action":"#","type":"post","title":"Formulario"},"data":[{"input":{"label":"Nombre","lenght":10,"placeholder":"Nombre","type":"text"}},{"select":{"label":"departamento","options":[{"Name":"Option1","Value":"value1","selected":true},{"Name":"Option2","Value":"value3","selected":true}]}},{"input":{"label":"Nombre","lenght":10,"placeholder":"Nombre","type":"number","value":"2"}}]}'
+        '{"form":{"action":"#","type":"post","title":"Formulario"},"data":[{"input":{"label":"Nombre","lenght":10,"placeholder":"Nombre","type":"text"}},{"select":{"label":"departamento","options":[{"Name":"Option1","Value":"value1","selected":true},{"Name":"Option2","Value":"value3","selected":true}]}},{"input":{"label":"Numero","lenght":10,"placeholder":"Nombre","type":"number","value":"2"}}]}'
       )
     });
   }
@@ -20,7 +22,11 @@ class FormGenerator extends React.Component {
   renderForm() {
     var items = [];
     this.state.form.data.forEach((element, id) => {
-      items.push(<Item key={`input-${id}`} bulma={true} item={element} />);
+      items.push(
+        <div key={`input-${id}`} className="field">
+          <Item bulma={true} item={element} />
+        </div>
+      );
     });
     return <React.Fragment>{items}</React.Fragment>;
   }
@@ -49,6 +55,12 @@ class FormGenerator extends React.Component {
 }
 
 const Item = ({ item, bulma = false }) => {
+  var labelCLass = ` ${
+    bulma == true
+      ? "has-text-dark has-text-left is-size-6 has-text-weight-semibold"
+      : "form-label"
+  }`;
+  var inputClass = ` ${bulma == true ? "input" : " form-input"}`;
   if (item.input) {
     return (
       <React.Fragment>
@@ -57,15 +69,50 @@ const Item = ({ item, bulma = false }) => {
             bulma == true ? "control " : ""
           }`}
         >
-          {item.input.label && <label htmlFor="">{item.input.label}</label>}
+          {item.input.label && (
+            <label className={labelCLass} htmlFor="">
+              {item.input.label}
+            </label>
+          )}
+          {item.input && item.input.value ? (
+            <input
+              className={inputClass}
+              type={item.input.type ? item.input.type : "text"}
+              defaultValue={item.input.value}
+            />
+          ) : (
+            <input
+              className={inputClass}
+              type={item.input.type ? item.input.type : "text"}
+            />
+          )}
         </div>
       </React.Fragment>
     );
   } else if (item.select) {
     return (
       <React.Fragment>
-        <div className="content-form-input form-select">
-          {item.select.label && <label htmlFor="">{item.select.label}</label>}
+        <div
+          className={`content-form-input form-select  ${
+            bulma == true ? "control " : ""
+          }`}
+        >
+          {item.select.label && (
+            <label className={labelCLass} htmlFor="">
+              {item.select.label}
+            </label>
+          )}
+          <div className={`form-select  ${bulma == true ? "select " : ""}`}>
+            <select name="" id="">
+              {item.select.options.map((element, id) => {
+                return (
+                  <option key={` id-${id}`} value="ss">
+                    sss
+                  </option>
+                );
+              })}
+            </select>
+          </div>
         </div>
       </React.Fragment>
     );
