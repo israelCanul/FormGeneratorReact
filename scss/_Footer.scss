@@ -1,0 +1,24 @@
+#root {
+  footer.footer {
+    transition: all #{$speed} ease-in-out;
+    width: calc(100%);
+    z-index: 1000;
+    @include desktop {
+      width: calc(100% - #{$headerAsideIconNonActive});
+      margin-left: $headerAsideIconNonActive;
+    }
+  }
+}
+
+body.sidebar-open {
+  #root {
+    footer.footer {
+      width: calc(100%);
+      transform: translate(#{$headerAsideIconActive}, 0);
+      @include desktop {
+        width: calc(100%);
+        margin-left: 0px;
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+.appContent {
+  width: 100%;
+  transition: transform #{$speed} ease-in-out, width #{$speed} ease-in-out;
+  background-color: rgba(230, 230, 230, 1);
+  @include desktop {
+    width: calc(100% - #{$headerAsideIconNonActive});
+    transform: translate(#{$headerAsideIconNonActive}, 0);
+  }
+}
+
+body.sidebar-open {
+  .appContent {
+    transform: translate(#{$headerAsideIconActive}, 0);
+    @include desktop {
+    }
+  }
+}

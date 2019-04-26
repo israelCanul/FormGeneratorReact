@@ -1,0 +1,107 @@
+@import "variables";
+@import "mixins";
+
+#MenuPrincipal {
+  overflow: hidden;
+  transition: transform #{$speed} ease-in-out, width #{$speed} ease-in-out;
+  // background: red;
+  position: absolute;
+  height: calc(100% - #{$headerHeight});
+  top: $headerHeight;
+  left: 0px;
+  // width: $headerAsideIconActive;
+  width: $headerAsideIconActive;
+  transform: translate(-#{$headerAsideIconActive}, 0);
+  @include desktop {
+    transform: translate(
+      -#{$headerAsideIconActive - $headerAsideIconNonActive},
+      0
+    );
+  }
+  .card.user {
+    height: 0px;
+    transition: height #{$speed} ease-in-out;
+    overflow: hidden;
+  }
+  .menu-list {
+    li {
+      .item {
+        &.parentAside {
+          width: $headerAsideIconNonActive;
+          height: $headerAsideIconNonActive;
+          margin-left: #{$headerAsideIconActive - $headerAsideIconNonActive};
+          box-sizing: border-box;
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+          padding: 0.5em 0px;
+          transition: background #{$speed} ease-in-out,
+            height #{$speed} ease-in-out, width #{$speed} ease-in-out,
+            margin #{$speed} ease-in-out;
+          background: rgba(50, 115, 220, 0.05);
+          box-shadow: 1px 1px 1px 0px rgb(230, 230, 230);
+          &:hover {
+            border-left: 4px solid rgb(50, 115, 220);
+            background: rgba(50, 115, 220, 0.7);
+            color: white;
+          }
+          span {
+            flex: 1;
+            display: none;
+          }
+          i {
+          }
+        }
+      }
+    }
+  }
+}
+
+body.sidebar-open {
+  #MenuPrincipal {
+    transform: translate(0px, 0);
+    @include desktop {
+      transform: translate(0, 0);
+    }
+    .card.user {
+      height: 100px;
+      transition: height #{$speed} ease-in-out;
+      overflow: hidden;
+    }
+    .menu-label {
+      padding: 0px 3px;
+    }
+    .menu-list {
+      li {
+        .item {
+          &.parentAside {
+            width: $headerAsideIconActive;
+            height: auto;
+            margin-left: 0px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            padding: 0.5em 0px;
+            box-shadow: 1px 1px 1px 0px rgb(230, 230, 230);
+            &:hover {
+              border-left: 4px solid rgb(50, 115, 220);
+              background: rgba(50, 115, 220, 1);
+              color: white;
+            }
+            span {
+              flex: 1;
+              display: block;
+              padding: 0px 5px;
+            }
+            i {
+              width: $headerAsideIconNonActive;
+            }
+          }
+        }
+      }
+    }
+  }
+}
