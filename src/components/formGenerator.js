@@ -1,6 +1,8 @@
 import React from "react";
+import api from "../api/";
 
 import(/* webpackChunkName: "cssAside" */ "../../scss/form.scss");
+let axios = null;
 
 class FormGenerator extends React.Component {
   constructor(props) {
@@ -9,12 +11,23 @@ class FormGenerator extends React.Component {
       hey: "ss"
     };
   }
-  getFormFromApi() {
-    this.setState({
-      form: JSON.parse(
-        '{"form":{"action":"#","type":"post","title":"Formulario"},"data":[{"input":{"label":"Nombre","lenght":10,"placeholder":"Nombre","type":"text"}},{"select":{"label":"departamento","options":[{"Name":"Option1","Value":"value1","selected":true},{"Name":"Option2","Value":"value3","selected":true}]}},{"input":{"label":"Numero","lenght":10,"placeholder":"Nombre","type":"number","value":"2"}}]}'
-      )
-    });
+  async getFormFromApi() {
+    let that = this;
+    axios = await import(/* webpackChunkName: "axios" */ "axios");
+    let apiMAnager = new api(axios, "http://api.royalresorts.com/index.php");
+
+    /** se hace la peticion  */
+    apiMAnager.axios
+      .post("/admin/getForm", "form=HJUDTFSS")
+      .then(function(response) {
+        that.setState({ form: response.data });
+      })
+      .catch(function(error) {});
+    // this.setState({
+    //   form: JSON.parse(
+    //     '{"form":{"action":"#","type":"post","title":"Formulario"},"data":[{"input":{"label":"Nombre","lenght":10,"placeholder":"Nombre","type":"text"}},{"select":{"label":"departamento","options":[{"Name":"Option1","Value":"value1","selected":true},{"Name":"Option2","Value":"value3","selected":true}]}},{"input":{"label":"Nombre","lenght":10,"placeholder":"Nombre","type":"number","value":"2"}}]}'
+    //   )
+    // });
   }
   componentDidMount() {
     this.getFormFromApi();
