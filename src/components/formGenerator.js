@@ -18,11 +18,12 @@ class FormGenerator extends React.Component {
 
     /** se hace la peticion  */
     apiMAnager.axios
-      .post("/admin/getForm", "form=HJUDTFSS")
-      .then(function(response) {
+      .post("https://narilearsi.azurewebsites.net/api/formulario/formularioEjemplo")
+      // .post("https://localhost:44308/api/formulario/formularioEjemplo")
+      .then(function (response) {
         that.setState({ form: response.data });
       })
-      .catch(function(error) {});
+      .catch(function (error) { });
     // this.setState({
     //   form: JSON.parse(
     //     '{"form":{"action":"#","type":"post","title":"Formulario"},"data":[{"input":{"label":"Nombre","lenght":10,"placeholder":"Nombre","type":"text"}},{"select":{"label":"departamento","options":[{"Name":"Option1","Value":"value1","selected":true},{"Name":"Option2","Value":"value3","selected":true}]}},{"input":{"label":"Nombre","lenght":10,"placeholder":"Nombre","type":"number","value":"2"}}]}'
@@ -60,8 +61,8 @@ class FormGenerator extends React.Component {
             </div>
           </form>
         ) : (
-          <div>another vid</div>
-        )}
+            <div>another vid</div>
+          )}
       </div>
     );
   }
@@ -72,7 +73,7 @@ const Item = ({ item, bulma = false }) => {
     bulma == true
       ? "has-text-dark has-text-left is-size-6 has-text-weight-semibold"
       : "form-label"
-  }`;
+    }`;
   var inputClass = ` ${bulma == true ? "input" : " form-input"}`;
   if (item.input) {
     return (
@@ -80,7 +81,7 @@ const Item = ({ item, bulma = false }) => {
         <div
           className={`content-form-input form-input ${
             bulma == true ? "control " : ""
-          }`}
+            }`}
         >
           {item.input.label && (
             <label className={labelCLass} htmlFor="">
@@ -94,11 +95,11 @@ const Item = ({ item, bulma = false }) => {
               defaultValue={item.input.value}
             />
           ) : (
-            <input
-              className={inputClass}
-              type={item.input.type ? item.input.type : "text"}
-            />
-          )}
+              <input
+                className={inputClass}
+                type={item.input.type ? item.input.type : "text"}
+              />
+            )}
         </div>
       </React.Fragment>
     );
@@ -108,7 +109,7 @@ const Item = ({ item, bulma = false }) => {
         <div
           className={`content-form-input form-select  ${
             bulma == true ? "control " : ""
-          }`}
+            }`}
         >
           {item.select.label && (
             <label className={labelCLass} htmlFor="">
@@ -119,8 +120,8 @@ const Item = ({ item, bulma = false }) => {
             <select name="" id="">
               {item.select.options.map((element, id) => {
                 return (
-                  <option key={` id-${id}`} value="ss">
-                    sss
+                  <option key={` id-${id}`} value={element.Value}>
+                    {element.Name}
                   </option>
                 );
               })}
@@ -145,8 +146,8 @@ const Title = ({ form = null }) => {
               <h3>{title}</h3>
             </div>
           ) : (
-            ""
-          )}
+              ""
+            )}
         </React.Fragment>
       );
     } else {
